@@ -10,7 +10,7 @@ import (
 	"path/filepath"
 )
 
-func Kubeclient() *kubernetes.Clientset {
+func Kubeclient() (*kubernetes.Clientset, error) {
 	host, port := os.Getenv("KUBERNETES_SERVICE_HOST"), os.Getenv("KUBERNETES_SERVICE_PORT")
 	var config *rest.Config
 	var err error
@@ -26,14 +26,14 @@ func Kubeclient() *kubernetes.Clientset {
 		// use the current context in kubeconfig
 		config, err = clientcmd.BuildConfigFromFlags("", *kubeconfig)
 		if err != nil {
-			panic(err.Error())
+			return nil, err
 		}
 	} else {
 		// creates the in-cluster config
 		log.Println("Trying in lcuster config cluster config")
 		config, err = rest.InClusterConfig()
 		if err != nil {
-			panic(err.Error())
+			return nil, err
 		}
 	}
 
@@ -41,9 +41,9 @@ func Kubeclient() *kubernetes.Clientset {
 
 	clientset, err := kubernetes.NewForConfig(config)
 	if err != nil {
-		panic(err.Error())
+		return nil, err
 	}
-	return clientset
+	return clientset, nil
 }
 
 func homeDir() string {

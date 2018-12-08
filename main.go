@@ -9,11 +9,21 @@ import (
 
 func main() {
 
-	cl := pkg.Kubeclient()
-	nodeList, err := cl.CoreV1().Nodes().List(metav1.ListOptions{})
+	//Create kuberentes client to get node list
+	cl, err := pkg.Kubeclient()
+	//panic
 	if err != nil {
 		panic(err.Error())
 	}
+
+	//Get node list from kubernetes cluster
+	nodeList, err := cl.CoreV1().Nodes().List(metav1.ListOptions{})
+
+	//panic
+	if err != nil {
+		panic(err.Error())
+	}
+
 	nodename := nodeList.Items[0].Name
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
