@@ -29,7 +29,7 @@ func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "This is Go HTTP server running on node %s.", nodename)
 	})
-	if err := http.ListenAndServe(":8080", nil); err != nil {
+	if err := http.ListenAndServe(pkg.ListenPort, nil); err != nil {
 		panic(err)
 	}
 }

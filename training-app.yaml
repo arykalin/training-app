@@ -18,6 +18,11 @@ spec:
       - name: training-app
         image: arykalin/training-app:latest
         imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            memory: "30Mi"
+          limits:
+            memory: "50Mi"
         ports:
         - containerPort: 8080
 ---

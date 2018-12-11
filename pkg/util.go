@@ -52,3 +52,7 @@ func homeDir() string {
 	}
 	return os.Getenv("USERPROFILE") // windows
 }
+
+const (
+	ListenPort = ":8080"
+)
